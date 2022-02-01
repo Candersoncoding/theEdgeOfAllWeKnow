@@ -1,18 +1,22 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import SinglePlanet from '../components/SinglePlanet';
 
 
 const Main = (props) => {
 
-    const [planets, setPlanets] = useState()
+    const [planets, setPlanets] = useState([])
     // now that all the planet data is in state as an array,
     // sort the data in ascending order by aphelion or sideralOrbit
     // this requires iterating over state using an array friendly method
     // 
+
+    const [clickedPlanet, setClickedPlanet] = useState(null)
     useEffect(() => {
         // get all the planet data from the api and set is to be the state planets.
         axios.get('https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=isPlanet%2Ceq%2Ctrue')
-            .then(res => console.log(res.data.bodies))
+            .then(res => {setPlanets(res.data.bodies);
+                            console.log(res.data.bodies)})
             .catch(err => console.log(err))
     }, [])
 
@@ -22,8 +26,16 @@ const Main = (props) => {
             <div className='d-flex'>
                 <nav style={props.navBar}>
                     {/* map over the planets array and display a list of buttons with the englishName for each planet */}
+                    {
+                        planets.map((item, i) => {
+                            return  <div key={i}>
+                                        <button className='btn btn-outline-light btn-lg m-3 w-75' onClick={()=> setClickedPlanet(planets[i])}>{planets[i].englishName}</button>
+                                    </div>
+                        })
+                    }
                 </nav>
                 <div style={props.bodyStyling}>
+                    {clickedPlanet === null ? <div></div> : <SinglePlanet planet={clickedPlanet} />}
                     {/*     onClick button, display a jumbotron with major details about the "clicked planet" with a picture
                         this will need to be a rendered component. 
                             Information about what planet was clicked will need 
