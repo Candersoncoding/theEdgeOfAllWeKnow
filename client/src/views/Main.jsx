@@ -12,6 +12,8 @@ const Main = (props) => {
     // 
 
     const [clickedPlanet, setClickedPlanet] = useState(null)
+    // set default for clickedPlanet to be APOD with a button to change the date and
+    // make an api call that will setClickedPlanet to be the APOD from the date selected
     useEffect(() => {
         // get all the planet data from the api and set is to be the state planets.
         axios.get('https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=isPlanet%2Ceq%2Ctrue')
@@ -19,6 +21,13 @@ const Main = (props) => {
                             console.log(res.data.bodies)})
             .catch(err => console.log(err))
     }, [])
+    useEffect(() => {
+        axios.get('https://api.nasa.gov/planetary/apod')
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }, [])
+
+
 
     return ( 
         <div>
