@@ -12,8 +12,15 @@ const Main = (props) => {
     // 
 
     const [clickedPlanet, setClickedPlanet] = useState(null)
-    // set default for clickedPlanet to be APOD with a button to change the date and
+    // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
+
+    const [picOfDay, setPicOfDay] = useState('');
+    // picOfDay state takes in a string that used in an img tag in the ternary operator
+    // the ternary operator conditionally renders the APOD currently by default.
+    // next I must find a way to dynamically make the api call for the APOD to give the 
+    // user the ability to choose from all previous APOD by date
+
     useEffect(() => {
         // get all the planet data from the api and set is to be the state planets.
         axios.get('https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=isPlanet%2Ceq%2Ctrue')
@@ -22,8 +29,8 @@ const Main = (props) => {
             .catch(err => console.log(err))
     }, [])
     useEffect(() => {
-        axios.get('https://api.nasa.gov/planetary/apod')
-            .then(res => console.log(res))
+        axios.get('https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp%date?2022-01-30')
+            .then(res => setPicOfDay(res.data.hdurl))
             .catch(err => console.log(err))
     }, [])
 
@@ -44,7 +51,7 @@ const Main = (props) => {
                     }
                 </nav>
                 <div style={props.bodyStyling}>
-                    {clickedPlanet === null ? <div></div> : <SinglePlanet planet={clickedPlanet} />}
+                    {clickedPlanet === null ? <img src={picOfDay} alt="APOD" className='w-75 m-5 mx-auto center'/> : <SinglePlanet planet={clickedPlanet} />}
                     {/*     onClick button, display a jumbotron with major details about the "clicked planet" with a picture
                         this will need to be a rendered component. 
                             Information about what planet was clicked will need 
