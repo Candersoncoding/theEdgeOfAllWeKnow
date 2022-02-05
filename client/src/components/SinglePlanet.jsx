@@ -14,7 +14,10 @@ const SinglePlanet = (props) => {
         <div>
             <div className="jumbotron">
                 <h1 className="display-3">{props.planet.englishName}</h1>
-                <p className="lead">average temp, number of moons, gravity, radius of planet</p>
+                <p className="lead">Average Temperature: {props.planet.avgTemp} Kelvin</p>
+                <p className="lead">Number of orbiting Moons: {props.planet.moons == null ? '0' : props.planet.moons.length}</p>
+                <p className="lead">Radius of Planet: {props.planet.meanRadius} km.</p>
+                <p className="lead">Radius of Planet: {props.planet.gravity} m/s^2</p>
                 <hr className="my-2"></hr>
                 <p></p>
                 

@@ -15,7 +15,7 @@ const Main = (props) => {
     // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
 
-    const [picOfDay, setPicOfDay] = useState('');
+    const [picOfDay, setPicOfDay] = useState("");
     // picOfDay state takes in a string that used in an img tag in the ternary operator
     // the ternary operator conditionally renders the APOD currently by default.
     // next I must find a way to dynamically make the api call for the APOD to give the 
@@ -29,11 +29,31 @@ const Main = (props) => {
             .catch(err => console.log(err))
     }, [])
     useEffect(() => {
-        axios.get('https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp%date?2022-01-30')
+        axios.get('https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp')
             .then(res => setPicOfDay(res.data.hdurl))
             .catch(err => console.log(err))
     }, [])
+    {/* this the practice section of the Main page where I am working on achieving different solutions
+        for allowing the user easy access to all the previous APOD one at a time.
+        
+    const [practicePic, setPracticePic] = useState("2022-1-30");
+    useEffect(() => {
+        axios.get(`https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp&date=${practicePic}`)
+            .then(res => setPracticePic(res.data.hdurl))
+            .catch(err => console.log(err))
+    }, [practicePic])
 
+    const handleDateChange = (event) => {
+        setPicOfDay({
+            ...picOfDay,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const handleDateSubmit = (event) => {
+        event.preventDefault();
+        setPracticePic(`${picOfDay}`);
+    } */}
 
 
     return ( 
@@ -50,8 +70,36 @@ const Main = (props) => {
                         })
                     }
                 </nav>
-                <div style={props.bodyStyling}>
-                    {clickedPlanet === null ? <img src={picOfDay} alt="APOD" className='w-75 m-5 mx-auto center'/> : <SinglePlanet planet={clickedPlanet} />}
+                <div style={props.bodyStyling}>{/**/}
+                     {clickedPlanet === null ?  <div><img src={picOfDay} alt="APOD" className='w-75 m-5 mx-auto center'/></div> : <SinglePlanet planet={clickedPlanet} />} 
+                    {/* <img src={practicePic} alt="practice for date choice" className='w-75 m-5 mx-auto center'/>
+                    <form className='w-75 mx-auto center bg-dark rounded'> 
+                    {/* the type='date' in the form formats the date incorrectly for input to the api call.
+                                need (YYYY-MM-DD) default is (mm/dd/yyyy)
+                                the date type input is also not a string.
+                                    1 the form could take in year, month, day as string seperately.
+                                    2 could set a state to increment or decrement the day onClick, then conditionally
+                                    increment/decrement month based on how many days in that month(take into account leap years),
+                                    then increment/decrement the year based on the month and day that are being incremented/decremented
+                                    3 could find a way to reformat the date coming in from the type=date input using a method */}
+                        {/* <h5 className='text-light p-3'>Pick a Date</h5>
+                        <div className='d-flex'>
+                            <div className='form-floating mx-auto center' onSubmit={handleDateSubmit}>
+                                <input type="text" name="year" className='form-control' placeholder='Default Input' onChange={handleDateChange} />
+                                <label htmlFor="floatingPicOfTheDay">Year(YYYY)</label>
+                            </div>
+                            <div className='form-floating mx-auto center'>
+                                <input type="text" name="month" className='form-control' placeholder='Default Input' onChange={handleDateChange} />
+                                <label htmlFor="floatingMonth">Month(MM)</label>
+                            </div>
+                            <div className='form-floating mx-auto center'>
+                                <input type="text" name="day" className='form-control' placeholder='Default Input' onChange={handleDateChange} />
+                                <label htmlFor="floatingDay">Day(DD)</label>
+                            </div>
+                        </div>
+                        
+                        <input type="submit" value="Checkout Picture from this Day" className='btn btn-outline-light m-3'/>
+                    </form> */}
                     {/*     onClick button, display a jumbotron with major details about the "clicked planet" with a picture
                         this will need to be a rendered component. 
                             Information about what planet was clicked will need 
