@@ -27,7 +27,7 @@ const Main = (props) => {
             .then(res => {setPlanets(res.data.bodies);
                             console.log(res.data.bodies)})
             .catch(err => console.log(err))
-    }, [])
+    }, [clickedPlanet])
     useEffect(() => {
         axios.get('https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp')
             .then(res => setPicOfDay(res.data.hdurl))

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, {useState, useEffect} from 'react';
+import Mercury from '../images/Mercury.jpg';
 
 const SinglePlanet = (props) => {
 
@@ -19,7 +20,7 @@ const SinglePlanet = (props) => {
                 <p className="lead">Radius of Planet: {props.planet.meanRadius} km.</p>
                 <p className="lead">Radius of Planet: {props.planet.gravity} m/s^2</p>
                 <hr className="my-2"></hr>
-                <p></p>
+                <img src={Mercury} alt="image of planet" className='w-50'/>
                 
             </div>
         </div>
