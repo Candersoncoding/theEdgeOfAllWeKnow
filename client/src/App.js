@@ -24,14 +24,15 @@ function App() {
   const asideNavbar = {
     width: "25%",
     backgroundColor: "#56585d",
-    height: "100vh",
+    height: "auto",
     color: "white",
     padding: "25px"
   }
 
   const bodyStyling = {
     backgroundColor: "#a7a7a7",
-    height: "100vh",
+    minHeight: "100vh",
+    height: "auto",
     width: "75%"
   }
 
