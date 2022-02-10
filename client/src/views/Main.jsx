@@ -10,7 +10,7 @@ const Main = (props) => {
     // sort the data in ascending order by aphelion or sideralOrbit
     // this requires iterating over state using an array friendly method
     // 
-
+    const [sorted, setSorted] = useState([]);
     const [clickedPlanet, setClickedPlanet] = useState(null)
     // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
@@ -55,6 +55,33 @@ const Main = (props) => {
         setPracticePic(`${picOfDay}`);
     } */}
 
+    const sortPlanets = (event) => {
+        event.preventDefault();
+        let orbits = []; // puts all the sideral orbit values in the orbits array
+        for(let i = 0; i < planets.length; i++){
+            orbits.push(planets[i].sideralOrbit);
+        }
+        orbits.sort((a,b)=> a-b); // sorts orbits array in ascending order 
+        console.log(orbits);
+        // checks if the value in the orbits array matches the sideral orbit value of each planets object instance
+        // if the values match, the value in the orbits array is set to the object of the planet instance
+        for(let k = 0; k < orbits.length; k++){            
+            orbits[k] === planets[0].sideralOrbit ? orbits[k] = planets[0] :
+            orbits[k] === planets[1].sideralOrbit ? orbits[k] = planets[1] :
+            orbits[k] === planets[2].sideralOrbit ? orbits[k] = planets[2] :
+            orbits[k] === planets[3].sideralOrbit ? orbits[k] = planets[3] :
+            orbits[k] === planets[4].sideralOrbit ? orbits[k] = planets[4] :
+            orbits[k] === planets[5].sideralOrbit ? orbits[k] = planets[5] :
+            orbits[k] === planets[6].sideralOrbit ? orbits[k] = planets[6] :
+            orbits[k] = planets[7]
+        }
+        // after the second for loop terminates, the planets state is set to be the array of objects in orbits
+        // since the values were sorted before they were replaced, the planets state is sorted
+        setPlanets(orbits);
+    }
+        
+    
+
 
     return ( 
         <div>
@@ -69,9 +96,13 @@ const Main = (props) => {
                                     </div>
                         })
                     }
+                    <h3>Can you order the Planets?</h3>
+                    <p>What's the order, closest to furthest from the Sun?</p>
+                    <p>(test your theory, click below)</p>
+                    <button onClick={sortPlanets} className='btn btn-outline-info btn-lg m-3 w-75'>Sort Planets</button>
                 </nav>
                 <div style={props.bodyStyling}>{/**/}
-                     {clickedPlanet === null ?  <div><img src={picOfDay} alt="APOD" className='w-75 m-5 mx-auto center'/></div> : <SinglePlanet planet={clickedPlanet} />} 
+                     {clickedPlanet === null ?  <div><img src={picOfDay} alt="APOD might be a video: https://apod.nasa.gov/apod/astropix.html" className='w-75 m-5 mx-auto center'/></div> : <SinglePlanet planet={clickedPlanet} />} 
                     {/* <img src={practicePic} alt="practice for date choice" className='w-75 m-5 mx-auto center'/>
                     <form className='w-75 mx-auto center bg-dark rounded'> 
                     {/* the type='date' in the form formats the date incorrectly for input to the api call.
@@ -81,7 +112,11 @@ const Main = (props) => {
                                     2 could set a state to increment or decrement the day onClick, then conditionally
                                     increment/decrement month based on how many days in that month(take into account leap years),
                                     then increment/decrement the year based on the month and day that are being incremented/decremented
-                                    3 could find a way to reformat the date coming in from the type=date input using a method */}
+                                    3 could find a way to reformat the date coming in from the type=date input using a method
+                                            Ex:
+                                            const moonLanding = new Date('July 20, 69 00:20:18');
+                                            const whenLanding =  `${moonLanding.getFullYear()}, ${moonLanding.getMonth()}, ${moonLanding.getDate()}`
+                                            console.log(whenLanding); */}
                         {/* <h5 className='text-light p-3'>Pick a Date</h5>
                         <div className='d-flex'>
                             <div className='form-floating mx-auto center' onSubmit={handleDateSubmit}>

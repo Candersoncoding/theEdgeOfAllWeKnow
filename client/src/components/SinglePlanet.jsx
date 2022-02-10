@@ -36,6 +36,10 @@ const SinglePlanet = (props) => {
     
     return( 
         <div className='p-5'>
+            {/* displays all planet info coming in through props from Main.jsx.
+                img tag is conditionally rendering images based on the planet's 
+            english name.
+            */}
             <div className='jumbotron' style= {planetJumbotron} >
                 <h1 className="display-3">{props.planet.englishName}</h1>
                 <img src={props.planet.englishName === "Mercury" ?
