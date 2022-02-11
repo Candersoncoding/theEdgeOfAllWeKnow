@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Router} from '@reach/router';
 import Main from './views/Main.jsx';
+import PlanetDetails from './views/PlanetDetails';
 
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
     <div className="App">
 
         <Router>
-          <Main path={"/"} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>
+          <Main path={"/"} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling} />
+          <PlanetDetails path={`/:planet/details`} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>
         </Router>
 
     </div>
