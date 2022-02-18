@@ -8,6 +8,7 @@ import Jupiter from '../images/Jupiter.png';
 import Saturn from '../images/Saturn.jpg';
 import Uranus from '../images/Uranus.jpg';
 import Neptune from '../images/Neptune.jpg';
+import {Link} from '@reach/router';
 
 const SinglePlanet = (props) => {
 
@@ -61,6 +62,7 @@ const SinglePlanet = (props) => {
                         <p className="lead"><strong>Radius of Planet:</strong> {props.planet.gravity} m/s<sup>2</sup></p>
                     </div>
                 </div>
+                <Link className='btn btn-outline-primary' to={`/${props.planet.id}/details`}>Dive Deeper</Link>
             </div>
         </div>
     )

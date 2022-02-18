@@ -42,7 +42,7 @@ function App() {
 
         <Router>
           <Main path={"/"} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling} />
-          <PlanetDetails path={`/:planet/details`} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>
+          <PlanetDetails path={`/:id/details`} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>
         </Router>
 
     </div>
