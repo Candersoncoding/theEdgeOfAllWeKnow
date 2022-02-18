@@ -9,8 +9,7 @@ const Main = (props) => {
     // now that all the planet data is in state as an array,
     // sort the data in ascending order by aphelion or sideralOrbit
     // this requires iterating over state using an array friendly method
-    // 
-    const [sorted, setSorted] = useState([]);
+
     const [clickedPlanet, setClickedPlanet] = useState(null)
     // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
@@ -102,7 +101,12 @@ const Main = (props) => {
                     <button onClick={sortPlanets} className='btn btn-outline-info btn-lg m-3 w-75'>Sort Planets</button>
                 </nav>
                 <div style={props.bodyStyling}>{/**/}
-                     {clickedPlanet === null ?  <div><img src={picOfDay} alt="APOD might be a video: https://apod.nasa.gov/apod/astropix.html" className='w-75 m-5 mx-auto center'/></div> : <SinglePlanet planet={clickedPlanet} />} 
+                        {clickedPlanet === null ?  
+                            <div>
+                                <img src={picOfDay} alt="APOD might be a video: https://apod.nasa.gov/apod/astropix.html" className='w-75 m-5 mx-auto center'/>
+                            </div> : 
+                            <SinglePlanet planet={clickedPlanet} />
+                        } 
                     {/* <img src={practicePic} alt="practice for date choice" className='w-75 m-5 mx-auto center'/>
                     <form className='w-75 mx-auto center bg-dark rounded'> 
                     {/* the type='date' in the form formats the date incorrectly for input to the api call.
