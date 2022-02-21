@@ -14,6 +14,12 @@ const Main = (props) => {
     // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
 
+    const [astralPicInfo, setAstralPicInfo] = useState({
+            title: "",
+            explanation: ""
+    });
+    // set the astralPicInfo state to contain the properties res.data.title and
+    // res.data.explanation
     const [picOfDay, setPicOfDay] = useState("");
     // picOfDay state takes in a string that used in an img tag in the ternary operator
     // the ternary operator conditionally renders the APOD currently by default.
@@ -23,15 +29,24 @@ const Main = (props) => {
     useEffect(() => {
         // get all the planet data from the api and set is to be the state planets.
         axios.get('https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=isPlanet%2Ceq%2Ctrue')
-            .then(res => {setPlanets(res.data.bodies);
-                            console.log(res.data.bodies)})
+            .then(res => {setPlanets(res.data.bodies)
+                            console.log(res.data.bodies);
+                        })
             .catch(err => console.log(err))
     }, [clickedPlanet])
     useEffect(() => {
         axios.get('https://api.nasa.gov/planetary/apod?api_key=AdbNb63ypeKhhCuPZFlKtHg4V9DIiqw3A8Gh6vwp')
-            .then(res => setPicOfDay(res.data.hdurl))
+            .then(res => {setPicOfDay(res.data.hdurl)
+                        setAstralPicInfo({
+                            title: res.data.title,
+                            explanation: res.data.explanation
+                        })
+                        
+                        console.log(res.data);
+                        })
             .catch(err => console.log(err))
     }, [])
+    console.log(astralPicInfo);
     {/* this the practice section of the Main page where I am working on achieving different solutions
         for allowing the user easy access to all the previous APOD one at a time.
         
@@ -102,8 +117,10 @@ const Main = (props) => {
                 </nav>
                 <div style={props.bodyStyling}>{/**/}
                         {clickedPlanet === null ?  
-                            <div>
-                                <img src={picOfDay} alt="APOD might be a video: https://apod.nasa.gov/apod/astropix.html" className='w-75 m-5 mx-auto center'/>
+                            <div className='m-3 '>
+                                <h5 className="display-5">{astralPicInfo.title}</h5>
+                                <img src={picOfDay} alt="APOD might be a video: https://apod.nasa.gov/apod/astropix.html" className='w-75 m-3 mx-auto center'/>
+                                <p className='lead'>{astralPicInfo.explanation}</p>
                             </div> : 
                             <SinglePlanet planet={clickedPlanet} />
                         } 
