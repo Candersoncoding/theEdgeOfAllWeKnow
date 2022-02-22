@@ -9,6 +9,13 @@ const PlanetDetails = (props) => {
 	const [clickedMoon, setClickedMoon] = useState([null]);
 	const [planetMass, setPlanetMass] = useState([]);
 	const [planetVolume, setPlanetVolume] = useState([]);
+	const [planetImages, setPlanetImages] = useState([]);
+	const [imageIterator, setImageIterator] = useState(3);
+	const [imageInfo, setImageInfo] = useState({
+		description: "",
+		center: "",
+		title: ""
+	});
 	
 	useEffect(()=> {
 		axios.get(`https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=id%2Ceq%2C${props.id}`)
@@ -21,11 +28,32 @@ const PlanetDetails = (props) => {
 	}, [props.id])
 	console.log(singlePlanetDetails, moons, planetMass, planetVolume)
 	// setTimeout function for render return() so the api can get the data first before trying to render
-	const checkApi = (event) => {
-		event.preventDefault();
+	const getPlanetImages = (event) => {
+
 		axios.get(`https://images-api.nasa.gov/search?description=${singlePlanetDetails.englishName}&media_type=image`)
-			.then(res => console.log(res.data.collection.items))
+			.then(res => {setPlanetImages(res.data.collection.items[imageIterator].links[0])
+
+					setImageInfo(res.data.collection.items[imageIterator].data[0]);
+					console.log(res.data.collection.items[imageIterator].data[0]);
+				})
 			.catch(err => console.log(err))
+	}
+
+	// increments the index of the array of images from the api and calls the next/prev image 
+	const iterate = () =>{
+		let i = imageIterator;
+		i+=1;
+		setImageIterator(i);
+		// console.log(imageIterator);
+		getPlanetImages();
+	}
+
+	// decrements the index of the array of images from the api and calls the next/prev image
+	const decrement = () => {
+		let i = imageIterator;
+		i-=1;
+		setImageIterator(i);
+		getPlanetImages();
 	}
 
 	const callMoon = (event) => {
@@ -35,6 +63,7 @@ const PlanetDetails = (props) => {
 		.catch(err => console.log(err))
 	}
 
+	console.log(clickedMoon, moons)
 	//   ideas for the detail data in the table:	
 	//   	have buttons in the navbar that change the data the table is filled with
 	// 		based on the state that is being mapped over. onClick of a different category or item
@@ -46,11 +75,11 @@ const PlanetDetails = (props) => {
 			</header>
 			<div className='d-flex'>
 				<div style={props.bodyStyling}>
-					{ clickedMoon === 0 ?
+					{ clickedMoon[0] === null ?
 					<div className="jumbotron text-light m-5 bg-dark p-3 rounded">
 						 
 						<h1 className="display-5">Let's Find Out More!</h1>
-						<button className='btn btn-outline-primary' onClick={checkApi}>check images</button>
+						<button className='btn btn-outline-primary' onClick={getPlanetImages}>More {singlePlanetDetails.englishName} images</button>
 						
 						<hr className="my-2"></hr>						 
 						<div className='d-flex justify-content-evenly'>
@@ -61,7 +90,7 @@ const PlanetDetails = (props) => {
 								<p className="lead">volume: {planetVolume.volValue} <sup>{planetVolume.volExponent}</sup> km</p>
 								<p className="lead">density: {singlePlanetDetails.density} kg</p>
 								<p className="lead">gravity: {singlePlanetDetails.gravity} m/s<sup>2</sup></p>
-								{moons === null ? <p></p> : <p className="lead">number of moons: {moons.length}</p> }
+								{moons === null ? <p></p> : <p className="lead">number of moons: {moons.length} (click a moon for more info.)</p> }
 							</ul>
 							<ul>
 								<p className="lead">escape radius: {singlePlanetDetails.escape} km</p>
@@ -77,6 +106,16 @@ const PlanetDetails = (props) => {
 						</div>
 					</div> :
 					<MoonDetails clickedMoon={clickedMoon} /> }
+					{<div className='m-5 bg-dark text-light p-3 mx-auto center rounded'>
+						<nav className='d-flex justify-content-evenly'>
+							<button className='btn btn-sm btn-outline-primary' onClick={decrement}>Prev Image</button>
+							<h5 className='display-6'>Title: {imageInfo.title}</h5>
+							<button className='btn btn-sm btn-outline-primary' onClick={iterate}>Next Image</button>
+						</nav>
+						<h5>Taken By: {imageInfo.center}</h5>
+						<img className="w-100" src={planetImages.href} alt={`pictures of ${singlePlanetDetails.englishName}`} />
+						<h5 className='lead'>{imageInfo.description}</h5>
+					</div>}
 				</div>
 				<nav style={props.navBar} className='d-flex flex-column'>
 					{moons === null ? <p></p> : <h5>Moons of {singlePlanetDetails.englishName}:</h5>}
