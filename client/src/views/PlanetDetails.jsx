@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MoonDetails from '../components/MoonDetails';
+import { navigate } from '@reach/router';
+import { set } from 'mongoose';
 
 const PlanetDetails = (props) => {
 
@@ -10,7 +12,7 @@ const PlanetDetails = (props) => {
 	const [planetMass, setPlanetMass] = useState([]);
 	const [planetVolume, setPlanetVolume] = useState([]);
 	const [planetImages, setPlanetImages] = useState([]);
-	const [imageIterator, setImageIterator] = useState(3);
+	const [imageIterator, setImageIterator] = useState(0);
 	const [imageInfo, setImageInfo] = useState({
 		description: "",
 		center: "",
@@ -27,14 +29,14 @@ const PlanetDetails = (props) => {
 		.catch(err => console.log(err))
 	}, [props.id])
 	console.log(singlePlanetDetails, moons, planetMass, planetVolume)
-	// setTimeout function for render return() so the api can get the data first before trying to render
+	
+	
 	const getPlanetImages = (event) => {
 
 		axios.get(`https://images-api.nasa.gov/search?description=${singlePlanetDetails.englishName}&media_type=image`)
 			.then(res => {setPlanetImages(res.data.collection.items[imageIterator].links[0])
-
-					setImageInfo(res.data.collection.items[imageIterator].data[0]);
-					console.log(res.data.collection.items[imageIterator].data[0]);
+					setImageInfo(res.data.collection.items[imageIterator].data[0])
+					// console.log(res.data.collection.items[imageIterator].data[0]);
 				})
 			.catch(err => console.log(err))
 	}
@@ -61,6 +63,10 @@ const PlanetDetails = (props) => {
 		axios.get(`${clickedMoon.rel}`)
 		.then(res => console.log(res))
 		.catch(err => console.log(err))
+	}
+
+	const goHome = () => {
+		navigate('/');
 	}
 
 	console.log(clickedMoon, moons)
@@ -106,7 +112,9 @@ const PlanetDetails = (props) => {
 						</div>
 					</div> :
 					<MoonDetails clickedMoon={clickedMoon} /> }
-					{<div className='m-5 bg-dark text-light p-3 mx-auto center rounded'>
+					{planetImages[0] === null ?
+					<p></p> :
+					<div className='m-5 bg-dark text-light p-3 mx-auto center rounded'>
 						<nav className='d-flex justify-content-evenly'>
 							<button className='btn btn-sm btn-outline-primary' onClick={decrement}>Prev Image</button>
 							<h5 className='display-6'>Title: {imageInfo.title}</h5>
@@ -118,6 +126,7 @@ const PlanetDetails = (props) => {
 					</div>}
 				</div>
 				<nav style={props.navBar} className='d-flex flex-column'>
+				<button onClick={goHome} className='btn btn-light btn-lg mt-0 mb-3'>Home</button>
 					{moons === null ? <p></p> : <h5>Moons of {singlePlanetDetails.englishName}:</h5>}
 					{ moons === null ? <p></p> :
 						moons.map((item, i) => { 
