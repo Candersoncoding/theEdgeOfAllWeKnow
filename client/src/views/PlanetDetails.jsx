@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MoonDetails from '../components/MoonDetails';
 import { navigate } from '@reach/router';
-import { set } from 'mongoose';
+
 
 const PlanetDetails = (props) => {
 
@@ -12,6 +12,7 @@ const PlanetDetails = (props) => {
 	const [planetMass, setPlanetMass] = useState([]);
 	const [planetVolume, setPlanetVolume] = useState([]);
 	const [planetImages, setPlanetImages] = useState([]);
+	const [clickedImages, setClickedImages] = useState(false);
 	const [imageIterator, setImageIterator] = useState(0);
 	const [imageInfo, setImageInfo] = useState({
 		description: "",
@@ -36,7 +37,7 @@ const PlanetDetails = (props) => {
 		axios.get(`https://images-api.nasa.gov/search?description=${singlePlanetDetails.englishName}&media_type=image`)
 			.then(res => {setPlanetImages(res.data.collection.items[imageIterator].links[0])
 					setImageInfo(res.data.collection.items[imageIterator].data[0])
-					// console.log(res.data.collection.items[imageIterator].data[0]);
+					setClickedImages(true);
 				})
 			.catch(err => console.log(err))
 	}
@@ -70,10 +71,7 @@ const PlanetDetails = (props) => {
 	}
 
 	console.log(clickedMoon, moons)
-	//   ideas for the detail data in the table:	
-	//   	have buttons in the navbar that change the data the table is filled with
-	// 		based on the state that is being mapped over. onClick of a different category or item
-	//		updates the state and updates the table data
+
   	return(
 		<div>
 			<header style={props.styleHeader} className='display-1'>
@@ -112,15 +110,15 @@ const PlanetDetails = (props) => {
 						</div>
 					</div> :
 					<MoonDetails clickedMoon={clickedMoon} /> }
-					{planetImages[0] === null ?
+					{clickedImages === false ?
 					<p></p> :
-					<div className='m-5 bg-dark text-light p-3 mx-auto center rounded'>
-						<nav className='d-flex justify-content-evenly'>
+					<div className='m-3 bg-dark text-light p-3 rounded'>
+						<nav className='d-flex justify-content-between'>
 							<button className='btn btn-sm btn-outline-primary' onClick={decrement}>Prev Image</button>
-							<h5 className='display-6'>Title: {imageInfo.title}</h5>
+							<h3 className='display-6'>{imageInfo.title}</h3>
 							<button className='btn btn-sm btn-outline-primary' onClick={iterate}>Next Image</button>
 						</nav>
-						<h5>Taken By: {imageInfo.center}</h5>
+						<h5 className='lead'>Taken By: {imageInfo.center}</h5>
 						<img className="w-100" src={planetImages.href} alt={`pictures of ${singlePlanetDetails.englishName}`} />
 						<h5 className='lead'>{imageInfo.description}</h5>
 					</div>}

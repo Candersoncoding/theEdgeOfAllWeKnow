@@ -13,7 +13,7 @@ function App() {
 
   const styleHeader = {
     height: "200px",
-    backgroundColor: "#242424",
+    backgroundColor: "#212529",
     color: "white",
     display: "flex",
     justifyContent: "center",
