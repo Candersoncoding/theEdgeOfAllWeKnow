@@ -8,7 +8,6 @@ const Main = (props) => {
     const [planets, setPlanets] = useState([])
     // now that all the planet data is in state as an array,
     // sort the data in ascending order by aphelion or sideralOrbit
-    // this requires iterating over state using an array friendly method
 
     const [clickedPlanet, setClickedPlanet] = useState(null)
     // set default for clickedPlanet to be APOD which has a button to change the date and
@@ -20,14 +19,13 @@ const Main = (props) => {
     });
     // set the astralPicInfo state to contain the properties res.data.title and
     // res.data.explanation
+
     const [picOfDay, setPicOfDay] = useState("");
-    // picOfDay state takes in a string that used in an img tag in the ternary operator
-    // the ternary operator conditionally renders the APOD currently by default.
     // next I must find a way to dynamically make the api call for the APOD to give the 
     // user the ability to choose from all previous APOD by date
 
     useEffect(() => {
-        // get all the planet data from the api and set is to be the state planets.
+        // get all the planet data from the api and set it to be the state planets.
         axios.get('https://api.le-systeme-solaire.net/rest.php/bodies?filter%5B%5D=isPlanet%2Ceq%2Ctrue')
             .then(res => {setPlanets(res.data.bodies)
                             console.log(res.data.bodies);
@@ -47,7 +45,7 @@ const Main = (props) => {
             .catch(err => console.log(err))
     }, [])
     console.log(astralPicInfo);
-    {/* this the practice section of the Main page where I am working on achieving different solutions
+    {/* this is the practice section of the Main page where I am working on achieving different solutions
         for allowing the user easy access to all the previous APOD one at a time.
         
     const [practicePic, setPracticePic] = useState("2022-1-30");

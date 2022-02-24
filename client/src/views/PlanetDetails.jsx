@@ -11,6 +11,7 @@ const PlanetDetails = (props) => {
 	const [clickedMoon, setClickedMoon] = useState([null]);
 	const [planetMass, setPlanetMass] = useState([]);
 	const [planetVolume, setPlanetVolume] = useState([]);
+
 	const [planetImages, setPlanetImages] = useState([]);
 	const [clickedImages, setClickedImages] = useState(false);
 	const [imageIterator, setImageIterator] = useState(0);
@@ -44,26 +45,34 @@ const PlanetDetails = (props) => {
 
 	// increments the index of the array of images from the api and calls the next/prev image 
 	const iterate = () =>{
-		let i = imageIterator;
-		i+=1;
-		setImageIterator(i);
-		// console.log(imageIterator);
-		getPlanetImages();
+		let i = imageIterator;	
+		if(i === 99){
+			i = 0;
+			getPlanetImages();
+			setImageIterator(i);
+		}
+		else{
+			i+=1;
+			getPlanetImages();
+			setImageIterator(i);
+			console.log(imageIterator);
+
+		}
 	}
 
 	// decrements the index of the array of images from the api and calls the next/prev image
 	const decrement = () => {
 		let i = imageIterator;
-		i-=1;
-		setImageIterator(i);
-		getPlanetImages();
-	}
-
-	const callMoon = (event) => {
-		event.preventDefault();
-		axios.get(`${clickedMoon.rel}`)
-		.then(res => console.log(res))
-		.catch(err => console.log(err))
+		if(i === 0){
+			i = 99;
+			getPlanetImages();
+			setImageIterator(i);
+		}
+		else{
+			i-=1;
+			getPlanetImages();
+			setImageIterator(i);
+		}
 	}
 
 	const goHome = () => {
@@ -80,7 +89,7 @@ const PlanetDetails = (props) => {
 			<div className='d-flex'>
 				<div style={props.bodyStyling}>
 					{ clickedMoon[0] === null ?
-					<div className="jumbotron text-light m-5 bg-dark p-3 rounded">
+					<div className="jumbotron text-light m-3 bg-dark p-3 rounded">
 						 
 						<h1 className="display-5">Let's Find Out More!</h1>
 						<button className='btn btn-outline-primary' onClick={getPlanetImages}>More {singlePlanetDetails.englishName} images</button>
@@ -129,10 +138,6 @@ const PlanetDetails = (props) => {
 					{ moons === null ? <p></p> :
 						moons.map((item, i) => { 
 							return <button key={i} onClick={()=> setClickedMoon(item)} className="btn btn-outline-light m-1">{item.moon}</button>
-							// later make the button a link or make an onClick function that makes
-							// an api call for the rel property to get that specific moons data and
-							// display it
-							// probably will need a state for selecting the clicked moon 
 						})
 					}
 				</nav>
