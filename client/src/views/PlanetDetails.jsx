@@ -79,6 +79,11 @@ const PlanetDetails = (props) => {
 		navigate('/');
 	}
 
+	const showPlanetDetails = (event) => {
+		event.preventDefault();
+		setClickedMoon([null]);
+	}
+
 	console.log(clickedMoon, moons)
 
   	return(
@@ -97,24 +102,24 @@ const PlanetDetails = (props) => {
 						<hr className="my-2"></hr>						 
 						<div className='d-flex justify-content-evenly'>
 							<ul>
-								<p className="lead">perihelion: {singlePlanetDetails.perihelion} km</p>
-								<p className="lead">aphelion: {singlePlanetDetails.aphelion} km</p>
-								<p className="lead">mass: {planetMass.massValue} <sup>{planetMass.massExponent}</sup> kg</p>
-								<p className="lead">volume: {planetVolume.volValue} <sup>{planetVolume.volExponent}</sup> km</p>
-								<p className="lead">density: {singlePlanetDetails.density} kg</p>
-								<p className="lead">gravity: {singlePlanetDetails.gravity} m/s<sup>2</sup></p>
-								{moons === null ? <p></p> : <p className="lead">number of moons: {moons.length} (click a moon for more info.)</p> }
+								<p className="lead"><strong className='text-info'>perihelion:</strong> {singlePlanetDetails.perihelion} km</p>
+								<p className="lead"><strong className='text-info'>aphelion:</strong> {singlePlanetDetails.aphelion} km</p>
+								<p className="lead"><strong className='text-info'>mass:</strong> {planetMass.massValue} <sup>{planetMass.massExponent}</sup> kg</p>
+								<p className="lead"><strong className='text-info'>volume:</strong> {planetVolume.volValue} <sup>{planetVolume.volExponent}</sup> km</p>
+								<p className="lead"><strong className='text-info'>density:</strong> {singlePlanetDetails.density} kg</p>
+								<p className="lead"><strong className='text-info'>gravity:</strong> {singlePlanetDetails.gravity} m/s<sup>2</sup></p>
+								{moons === null ? <p className='lead text-secondary'><strong className='text-info'>number of moons:</strong> none</p> : <p className="lead"><strong className='text-info'>number of moons:</strong> {moons.length} (click a moon for more info.)</p> }
 							</ul>
 							<ul>
-								<p className="lead">escape radius: {singlePlanetDetails.escape} km</p>
-								<p className="lead">equator radius: {singlePlanetDetails.equaRadius} km</p>
-								<p className="lead">polar radius: {singlePlanetDetails.polarRadius} km</p>
-								<p className="lead">sideral orbit: {singlePlanetDetails.sideralOrbit} Earth days</p>
-								<p className="lead">sideral rotation: {singlePlanetDetails.sideralRotation} hours</p>
+								<p className="lead"><strong className='text-info'>escape radius:</strong> {singlePlanetDetails.escape} km</p>
+								<p className="lead"><strong className='text-info'>equator radius:</strong> {singlePlanetDetails.equaRadius} km</p>
+								<p className="lead"><strong className='text-info'>polar radius:</strong> {singlePlanetDetails.polarRadius} km</p>
+								<p className="lead"><strong className='text-info'>sideral orbit:</strong> {singlePlanetDetails.sideralOrbit} Earth days</p>
+								<p className="lead"><strong className='text-info'>sideral rotation:</strong> {singlePlanetDetails.sideralRotation} hours</p>
 								{/* <p className="lead">discovered by: {singlePlanetDetails.discoveredBy}</p> */}
 								{/* <p className="lead">discovered on:{singlePlanetDetails.discoveryDate}</p> */}
-								<p className="lead">axial tilt: {singlePlanetDetails.axialTilt} degrees</p>
-								<p className="lead">average temp: {singlePlanetDetails.avgTemp} degrees Kelvin</p>
+								<p className="lead"><strong className='text-info'>axial tilt:</strong> {singlePlanetDetails.axialTilt} degrees</p>
+								<p className="lead"><strong className='text-info'>average temp:</strong> {singlePlanetDetails.avgTemp} degrees Kelvin</p>
 							</ul>
 						</div>
 					</div> :
@@ -133,7 +138,9 @@ const PlanetDetails = (props) => {
 					</div>}
 				</div>
 				<nav style={props.navBar} className='d-flex flex-column'>
-				<button onClick={goHome} className='btn btn-light btn-lg mt-0 mb-3'>Home</button>
+					<button onClick={goHome} className='btn btn-light btn-lg mt-0 mb-2'>Home</button>
+					<button onClick={showPlanetDetails} className='btn btn-light btn-lg mt-0 mb-3'>Show {singlePlanetDetails.englishName}</button>
+
 					{moons === null ? <p></p> : <h5>Moons of {singlePlanetDetails.englishName}:</h5>}
 					{ moons === null ? <p></p> :
 						moons.map((item, i) => { 

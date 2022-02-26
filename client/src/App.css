@@ -2,6 +2,18 @@
   text-align: center;
 }
 
+.defineBox{
+  width: 50%;
+  opacity: .2;
+}
+
+.defineBox:hover{
+  border: solid 2px #f8f9fa;
+  background-color: #0d6efd;
+  transform: scale(1.1);
+  opacity: .9;
+}
+
 body > #root > div {
   height: 100%;
 }
