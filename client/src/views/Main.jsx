@@ -9,6 +9,21 @@ const Main = (props) => {
     // now that all the planet data is in state as an array,
     // sort the data in ascending order by aphelion or sideralOrbit
 
+    const sun = {
+        avgTemp: 5772,
+        density: 1.409,
+        englishname: 'The Sun',
+        escape: 2223720,
+        gravity: 274,
+        meanRadius: 695500,
+        mass: 1989100,
+        massEx: x 10 to the 24,
+        vol: 1409272.56905986,
+        volEx: x 10 to the 12,
+        sideralRotation: 609.12,
+        Luminosity: 382.8 
+    }
+
     const [clickedPlanet, setClickedPlanet] = useState(null)
     // set default for clickedPlanet to be APOD which has a button to change the date and
     // make an api call that will setClickedPlanet to be the APOD from the date selected
@@ -67,6 +82,14 @@ const Main = (props) => {
         setPracticePic(`${picOfDay}`);
     } */}
 
+    // pulls data from api about the sun (information missing from this api)
+    const clickedSun = (event) => {
+        event.preventDefault();
+        axios.get('https://api.le-systeme-solaire.net/rest/bodies/soleil')
+            .then(res => setClickedPlanet(res.data))
+            .catch(err => console.log(err))
+    }
+
     const sortPlanets = (event) => {
         event.preventDefault();
         let orbits = []; // puts all the sideral orbit values in the orbits array
@@ -101,6 +124,7 @@ const Main = (props) => {
             <div className='d-flex'>
                 <nav style={props.navBar}>
                     {/* map over the planets array and display a list of buttons with the englishName for each planet */}
+                    <button className='btn btn-outline-warning btn-lg m-3 w-75' onClick={clickedSun}>Sun</button>
                     {
                         planets.map((item, i) => {
                             return  <div key={i}>

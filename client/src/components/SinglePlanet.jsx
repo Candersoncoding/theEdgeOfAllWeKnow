@@ -59,7 +59,7 @@ const SinglePlanet = (props) => {
                     </div>
                     <div>
                         <p className="lead"><strong>Radius of Planet:</strong> {props.planet.meanRadius} km.</p>
-                        <p className="lead"><strong>Radius of Planet:</strong> {props.planet.gravity} m/s<sup>2</sup></p>
+                        <p className="lead"><strong>Gravity:</strong> {props.planet.gravity} m/s<sup>2</sup></p>
                     </div>
                 </div>
                 <Link className='btn btn-outline-primary' to={`/${props.planet.id}/details`}>Dive Deeper</Link>
