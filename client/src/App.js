@@ -1,15 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Router} from '@reach/router';
 import Main from './views/Main.jsx';
 import PlanetDetails from './views/PlanetDetails';
 
 
 function App() {
-  // useEffect(()=> {
-
-  // })
 
   const styleHeader = {
     height: "200px",
@@ -40,10 +37,10 @@ function App() {
   return (
     <div className="App">
 
-        <Router>
-          <Main path={"/"} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling} />
-          <PlanetDetails path={`/:id/details`} styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>
-        </Router>
+        <Routes>
+          <Route path={"/"} element={<Main styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling} />} />
+          <Route path={`/:id/details`} element={<PlanetDetails styleHeader={styleHeader} navBar={asideNavbar} bodyStyling={bodyStyling}/>} />
+        </Routes>
 
     </div>
   );
