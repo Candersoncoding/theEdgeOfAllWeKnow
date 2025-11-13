@@ -1,0 +1,7 @@
+{
+  "biome.configurationPath": ".config/biome.json",
+  "css.lint.unknownAtRules": "ignore",
+  "editor.codeActionsOnSave": {
+    "source.action.useSortedProperties.biome": "explicit"
+  }
+}
